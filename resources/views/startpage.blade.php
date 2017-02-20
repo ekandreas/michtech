@@ -14,5 +14,5 @@
 @endsection
 
 @section('scripts')
-    <script async type="text/javascript" src="{{ asset('js/app-folder.js') }}"></script>
+    <script async type="text/javascript" src="{{ mix('js/app-folder.js') }}"></script>
 @endsection
