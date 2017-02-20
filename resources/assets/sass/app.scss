@@ -1,0 +1,22 @@
+
+// Fonts
+@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+
+@import "variables";
+@import "layout";
+
+@import "hero";
+
+@import "node_modules/bulma/sass/utilities/_all";
+@import "node_modules/bulma/sass/base/_all";
+@import "node_modules/bulma/sass/elements/_all";
+@import "node_modules/bulma/sass/components/_all";
+@import "node_modules/bulma/sass/grid/_all";
+
+@import "bulma/hero.sass";
+@import "node_modules/bulma/sass/layout/section.sass";
+@import "bulma/footer";
+
+.main {
+  min-height: 800px;
+}

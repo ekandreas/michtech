@@ -1,0 +1,137 @@
+<template>
+    <div class="panel" v-if="data">
+        <p class="panel-heading">
+            {{ data.name }}
+        </p>
+        <a class="panel-block" v-for="file in data.items" @click="download(file)">
+            <span class="panel-icon">
+              <i :class="mimeIcon(file)"></i>
+            </span>
+            {{ file.name }}
+        </a>
+        <div class="panel-block">
+            <dropzone
+                    :language="uploadLanguage"
+                    :useCustomDropzoneOptions="true"
+                    :dropzoneOptions="uploadOptions"
+                    :autoProcessQueue="false"
+                    ref="folderUpload"
+                    :useFontAwesome="dropzone.useFontAwesome"
+                    id="folderDropzone"
+                    :url="uploadUrl"></dropzone>
+        </div>
+    </div>
+</template>
+
+<script>
+
+    import Dropzone from 'vue2-dropzone';
+
+    export default {
+        props: ['id'],
+        data() {
+            let self = this;
+            return {
+                data: {},
+                uploadUrl: '/api/folder/'+self.id+'/upload',
+                dropzone: {
+                    useFontAwesome: true
+                },
+                uploadOptions: {
+                    autoProcessQueue: false,
+                    dictDefaultMessage: '<p><i class="fa fa-cloud-upload"></i><br/>Klicka eller släpp dokument här!</p>',
+                    addedfile(file) {
+                        let passcode = prompt('Ange kod för att ladda upp!');
+                        axios.post('api/folder/' + self.id + '/passcode', {passcode}).then(function(response) {
+                            if(response.data=='success') {
+                                self.$refs.folderUpload.processQueue();
+                                setTimeout(function() {
+                                    self.load();
+                                },500);
+                            }
+                            else {
+                                alert('Felaktig kod angiven!')
+                            }
+                        });
+                    }
+                },
+                uploadLanguage: {
+                    dictDefaultMessage: '123'
+                }
+            }
+        },
+        components: {
+            Dropzone
+        },
+        mounted()
+        {
+            let self = this;
+            self.load();
+
+            /*
+             Dropzone.options.FolderDropzone = {
+             autoProcessQueue: false,
+             dictDefaultMessage: '<p><i class="fa fa-cloud-upload"></i> Klicka eller släpp dokument här!</p>',
+             drop: function() {
+             let passcode = prompt('Kod');
+             axios.post('api/folder/' + self.id + '/valid', {passcode}).then(response => {
+             console.log(response);
+             FolderDropzone.processQueue()
+             });
+
+             }
+             };
+             */
+
+        }
+        ,
+        methods: {
+            test() {
+                return 1;
+            },
+            load() {
+                let self = this;
+                axios.get('api/folder/' + self.id).then(response => self.data = response.data);
+            },
+            mimeIcon(file) {
+                let mime = file.mime.toString();
+                if(mime.match('^application/pdf')) return 'fa fa-file-pdf-o';
+                if(mime.match('^image')) return 'fa fa-file-image-o';
+                if(mime.match('zip')) return 'fa fa-file-zip-o';
+                if(mime.match('^application\/')) return 'fa fa-file-o';
+                return 'fa fa-file-o';
+            },
+            download(file) {
+                let self = this;
+                let passcode = prompt('Ange kod för att ladda upp!');
+                axios.post('api/folder/' + self.id + '/passcode', {passcode}).then(function(response) {
+                    if(response.data=='success') {
+                        document.location='folder/' + self.id + '/item/' + file.id;
+                    }
+                    else {
+                        alert('Felaktig kod angiven!')
+                    }
+                });
+            }
+        }
+    }
+</script>
+
+<style>
+    .dragdroparea {
+        width: 100%;
+        min-height: 100px;
+        padding: 6px;
+        border: dashed 1px #ccc;
+        vertical-align: middle;
+    }
+
+    .dragdroparea p {
+        margin-top: 30px;
+        cursor: pointer;
+    }
+
+    .vue-dropzone {
+        width: 100%;
+    }
+</style>
