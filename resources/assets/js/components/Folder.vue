@@ -25,8 +25,6 @@
 
 <script>
 
-    import Dropzone from 'vue2-dropzone';
-
     export default {
         props: ['id'],
         data() {
@@ -59,9 +57,6 @@
                     dictDefaultMessage: '123'
                 }
             }
-        },
-        components: {
-            Dropzone
         },
         mounted()
         {

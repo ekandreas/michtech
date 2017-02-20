@@ -11180,10 +11180,12 @@ module.exports = g;
 
 /***/ }),
 /* 10 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__(32);
 
+Vue.component('dropzone', __webpack_require__(52));
 Vue.component('folder', __webpack_require__(44));
 
 var app = new Vue({
@@ -37963,8 +37965,6 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue2_dropzone__ = __webpack_require__(52);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue2_dropzone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue2_dropzone__);
 //
 //
 //
@@ -37990,8 +37990,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-
-
 
 
 /* harmony default export */ __webpack_exports__["default"] = {
@@ -38025,10 +38023,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 dictDefaultMessage: '123'
             }
         };
-    },
-
-    components: {
-        Dropzone: __WEBPACK_IMPORTED_MODULE_0_vue2_dropzone___default.a
     },
     mounted: function mounted() {
         var self = this;

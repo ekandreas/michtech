@@ -1,5 +1,6 @@
 require('./bootstrap');
 
+Vue.component('dropzone', require('vue2-dropzone'));
 Vue.component('folder', require('./components/Folder.vue'));
 
 const app = new Vue({
