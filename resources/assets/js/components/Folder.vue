@@ -1,5 +1,5 @@
 <template>
-    <div class="panel" v-if="data">
+    <div class="panel folder" v-if="data.name">
         <p class="panel-heading">
             {{ data.name }}
         </p>
@@ -52,9 +52,6 @@
                             }
                         });
                     }
-                },
-                uploadLanguage: {
-                    dictDefaultMessage: '123'
                 }
             }
         },
@@ -62,28 +59,8 @@
         {
             let self = this;
             self.load();
-
-            /*
-             Dropzone.options.FolderDropzone = {
-             autoProcessQueue: false,
-             dictDefaultMessage: '<p><i class="fa fa-cloud-upload"></i> Klicka eller släpp dokument här!</p>',
-             drop: function() {
-             let passcode = prompt('Kod');
-             axios.post('api/folder/' + self.id + '/valid', {passcode}).then(response => {
-             console.log(response);
-             FolderDropzone.processQueue()
-             });
-
-             }
-             };
-             */
-
-        }
-        ,
+        },
         methods: {
-            test() {
-                return 1;
-            },
             load() {
                 let self = this;
                 axios.get('api/folder/' + self.id).then(response => self.data = response.data);
@@ -128,5 +105,9 @@
 
     .vue-dropzone {
         width: 100%;
+    }
+
+    .folder {
+        margin-bottom: 25px;
     }
 </style>

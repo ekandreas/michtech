@@ -4,7 +4,9 @@
     <div class="container">
         <div class="columns">
             <div class="column is-6" id="app-folder">
-                <folder v-for="folder in folders" :id="folder.id"></folder>
+                <div v-for="folder in folders">
+                    <folder :id="folder.id"></folder>
+                </div>
             </div>
             <div class="column is-6">
                 @include('parts.michtech')
