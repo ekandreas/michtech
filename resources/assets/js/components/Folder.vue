@@ -8,7 +8,7 @@
                 <button @click="toggle(1)"
                         ref="documentButton"
                         class="button is-success is-fullwidth"
-                        v-bind:class="{'is-outlined': data.documents.length==0, 'is-loading': loadingDocuments==true }">
+                        v-bind:class="{'is-outlined': data.documents.length==0, 'is-loading': loadingDocuments }">
                     Dokument
                 </button>
             </div>
@@ -16,7 +16,7 @@
                 <button @click="toggle(2)"
                         ref="uploadButton"
                         class="button is-info is-fullwidth"
-                        v-bind:class="{'is-outlined': data.uploads.length==0, 'is-loading': loadingUploads==true }">
+                        v-bind:class="{'is-outlined': data.uploads.length==0, 'is-loading': loadingUploads }">
                     Uppladdat
                 </button>
             </div>
@@ -119,25 +119,34 @@
                 let self = this;
                 self.loadingDocuments = true;
                 self.data.documents = [];
-                axios.get('api/folder/' + self.id + '/documents', { timeout: 3000 }).then(function (response) {
+                self.data.uploads = [];
+                axios.get('api/folder/' + self.id + '/documents', {timeout: 3000}).then(function (response) {
                     self.data.documents = response.data;
-                    self.loadingDocuments = false;
-                }).catch(function() {
-                    self.loadingDocuments = false;
-                    self.data.documents=[];
+                    self.clearLoading();
+                }).catch(function () {
+                    self.clearLoading();
+                    self.data.documents = [];
                 });
             },
             loadUploads() {
                 let self = this;
                 self.loadingUploads = true;
+                self.data.documents = [];
                 self.data.uploads = [];
-                axios.get('api/folder/' + self.id + '/uploads', { timeout: 3000 }).then(function (response) {
+                axios.get('api/folder/' + self.id + '/uploads', {timeout: 3000}).then(function (response) {
                     self.data.uploads = response.data;
-                    self.loadingUploads = false;
-                }).catch(function() {
-                    self.loadingUploads = false;
-                    self.data.uploads=[];
+                    self.clearLoading();
+                }).catch(function () {
+                    self.data.uploads = [];
+                    self.clearLoading();
                 });
+            },
+            clearLoading()   {
+                let self = this;
+                setTimeout(function () {
+                    self.loadingUploads = false;
+                    self.loadingDocuments = false;
+                }, 1000);
             },
             mimeIcon(file) {
                 let mime = file.mime.toString();
