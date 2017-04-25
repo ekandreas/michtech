@@ -6,15 +6,15 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
-        "atomescrochus/laravel-bulma-starter": "^2.*",
-        "laravel/framework": "5.4.*",
-        "laravel/tinker": "~1.0",
-        "league/flysystem-aws-s3-v3": "^1.0"
+        "atomescrochus/laravel-bulma-starter": "*",
+        "laravel/framework": "*",
+        "laravel/tinker": "*",
+        "league/flysystem-aws-s3-v3": "*"
     },
     "require-dev": {
-        "fzaninotto/faker": "~1.4",
-        "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~5.7"
+        "fzaninotto/faker": "*",
+        "mockery/mockery": "*",
+        "phpunit/phpunit": "*"
     },
     "autoload": {
         "classmap": [
