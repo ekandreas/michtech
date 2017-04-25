@@ -24,14 +24,33 @@ class FolderController extends Controller
     public function show($id)
     {
         $folder = Folder::findOrFail($id);
-
-        $documents = Storage::disk('s3')->allFiles("folder-{$folder->id}/documents");
-        $uploads = Storage::disk('s3')->allFiles("folder-{$folder->id}/uploads");
         return [
             'name' => $folder->name,
-            'documents' => $documents,
-            'uploads' => $uploads,
+            'documents' => [],
+            'uploads' => [],
         ];
+    }
+
+    public function documents($id)
+    {
+        $folder = Folder::findOrFail($id);
+
+        Storage::disk('s3')->makeDirectory("folder-{$folder->id}");
+        Storage::disk('s3')->makeDirectory("folder-{$folder->id}/documents");
+
+        $documents = Storage::disk('s3')->files("folder-{$folder->id}/documents");
+        return $documents;
+    }
+
+    public function uploads($id)
+    {
+        $folder = Folder::findOrFail($id);
+
+        Storage::disk('s3')->makeDirectory("folder-{$folder->id}");
+        Storage::disk('s3')->makeDirectory("folder-{$folder->id}/uploads");
+
+        $uploads = Storage::disk('s3')->allFiles("folder-{$folder->id}/uploads");
+        return $uploads;
     }
 
     public function passcode(Request $request, $id)

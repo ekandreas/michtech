@@ -4,19 +4,32 @@
             {{ data.name }}
         </p>
         <div class="panel-block">
-                <div class="column">
-                    <button @click="toggle(1)" class="button is-success is-fullwidth" v-bind:class="{'is-outlined': view!=1 }">Dokument</button>
-                </div>
-                <div class="column">
-                    <button  @click="toggle(2)" class="button is-info is-fullwidth" v-bind:class="{'is-outlined': view!=2 }">Uppladdat</button>
-                </div>
+            <div class="column">
+                <button @click="toggle(1)"
+                        ref="documentButton"
+                        class="button is-success is-fullwidth"
+                        v-bind:class="{'is-outlined': data.documents.length==0, 'is-loading': loadingDocuments==true }">
+                    Dokument
+                </button>
+            </div>
+            <div class="column">
+                <button @click="toggle(2)"
+                        ref="uploadButton"
+                        class="button is-info is-fullwidth"
+                        v-bind:class="{'is-outlined': data.uploads.length==0, 'is-loading': loadingUploads==true }">
+                    Uppladdat
+                </button>
+            </div>
         </div>
-        <a class="panel-block" v-if="view==2" v-for="file in data.uploads" @click="download(file)">
+
+        <a class="panel-block" v-if="data.documents.length" v-for="file in data.documents" @click="download(file)">
             {{ file }}
         </a>
-        <a class="panel-block" v-if="view==1" v-for="file in data.documents" @click="download(file)">
+
+        <a class="panel-block" v-if="data.uploads.length" v-for="file in data.uploads" @click="download(file)">
             {{ file }}
         </a>
+
         <div class="panel-block">
             <dropzone
                     :useCustomDropzoneOptions="true"
@@ -40,6 +53,8 @@
             return {
                 view: 0,
                 data: {},
+                loadingDocuments: false,
+                loadingUploads: false,
                 uploadUrl: '/api/folder/' + self.id + '/upload',
                 dropzone: {
                     useFontAwesome: true
@@ -73,16 +88,56 @@
         methods: {
             toggle(view) {
                 let self = this;
-                if(self.view==view) {
-                    self.view=0;
+                if (self.view == view) {
+
+                    if (view == 1) {
+                        self.data.documents = [];
+                        self.$refs.documentButton.blur();
+                    }
+
+                    if (view == 2) {
+                        self.data.uploads = [];
+                        self.$refs.uploadButton.blur();
+                    }
+
+                    self.view = 0;
                 }
                 else {
-                    self.view=view;
+                    self.view = view;
+                    if (view == 1) self.loadDocs();
+                    if (view == 2) self.loadUploads();
                 }
             },
             load() {
                 let self = this;
-                axios.get('api/folder/' + self.id).then(response => self.data = response.data);
+                self.data.documents = [];
+                axios.get('api/folder/' + self.id).then(function (response) {
+                    self.data = response.data;
+                });
+            },
+            loadDocs() {
+                let self = this;
+                self.loadingDocuments = true;
+                self.data.documents = [];
+                axios.get('api/folder/' + self.id + '/documents', { timeout: 3000 }).then(function (response) {
+                    self.data.documents = response.data;
+                    self.loadingDocuments = false;
+                }).catch(function() {
+                    self.loadingDocuments = false;
+                    self.data.documents=[];
+                });
+            },
+            loadUploads() {
+                let self = this;
+                self.loadingUploads = true;
+                self.data.uploads = [];
+                axios.get('api/folder/' + self.id + '/uploads', { timeout: 3000 }).then(function (response) {
+                    self.data.uploads = response.data;
+                    self.loadingUploads = false;
+                }).catch(function() {
+                    self.loadingUploads = false;
+                    self.data.uploads=[];
+                });
             },
             mimeIcon(file) {
                 let mime = file.mime.toString();

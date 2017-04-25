@@ -16,6 +16,8 @@ use App\Http\Controllers\FolderController;
 
 Route::post('folder/{id}/passcode', 'FolderController@passcode');
 Route::post('folder/{id}/upload', 'FolderController@upload');
+Route::get('folder/{id}/documents', 'FolderController@documents');
+Route::get('folder/{id}/uploads', 'FolderController@uploads');
 Route::get('folder/{id}', 'FolderController@show');
 Route::get('folder', 'FolderController@index');
 
