@@ -24,9 +24,13 @@ class FolderController extends Controller
     public function show($id)
     {
         $folder = Folder::findOrFail($id);
+
+        $documents = Storage::disk('s3')->allFiles("folder-{$folder->id}/documents");
+        $uploads = Storage::disk('s3')->allFiles("folder-{$folder->id}/uploads");
         return [
             'name' => $folder->name,
-            'items' => $folder->items,
+            'documents' => $documents,
+            'uploads' => $uploads,
         ];
     }
 
@@ -43,18 +47,13 @@ class FolderController extends Controller
     {
         $folder = Folder::findOrFail($id);
 
-        $item = new Item([
-            'path' => $request->file('file')->store("folders/{$folder->id}"),
-            'name' => $request->file('file')->getClientOriginalName(),
-            'size' => $request->file('file')->getSize(),
-            'mime' => $request->file('file')->getMimeType(),
-            'type' => 'file',
-            'folder_id' => $id,
-        ]);
+        $result = $request->file('file')->storeAs(
+            "folder-{$folder->id}/uploads",
+            $request->file('file')->getClientOriginalName(),
+            "s3"
+        );
 
-        $item->save();
-
-        return $item;
+        return $result;
     }
 
     public function download(Request $request, $id, $itemId)

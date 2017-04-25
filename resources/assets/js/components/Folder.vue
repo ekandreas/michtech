@@ -3,22 +3,30 @@
         <p class="panel-heading">
             {{ data.name }}
         </p>
-        <a class="panel-block" v-for="file in data.items" @click="download(file)">
-            <span class="panel-icon">
-              <i :class="mimeIcon(file)"></i>
-            </span>
-            {{ file.name }}
+        <div class="panel-block">
+                <div class="column">
+                    <button @click="toggle(1)" class="button is-success is-fullwidth" v-bind:class="{'is-outlined': view!=1 }">Dokument</button>
+                </div>
+                <div class="column">
+                    <button  @click="toggle(2)" class="button is-info is-fullwidth" v-bind:class="{'is-outlined': view!=2 }">Uppladdat</button>
+                </div>
+        </div>
+        <a class="panel-block" v-if="view==2" v-for="file in data.uploads" @click="download(file)">
+            {{ file }}
+        </a>
+        <a class="panel-block" v-if="view==1" v-for="file in data.documents" @click="download(file)">
+            {{ file }}
         </a>
         <div class="panel-block">
             <dropzone
-                    :language="uploadLanguage"
                     :useCustomDropzoneOptions="true"
                     :dropzoneOptions="uploadOptions"
                     :autoProcessQueue="false"
                     ref="folderUpload"
                     :useFontAwesome="dropzone.useFontAwesome"
                     :id="dropZoneId"
-                    :url="uploadUrl"></dropzone>
+                    :url="uploadUrl">
+            </dropzone>
         </div>
     </div>
 </template>
@@ -30,6 +38,7 @@
         data() {
             let self = this;
             return {
+                view: 0,
                 data: {},
                 uploadUrl: '/api/folder/' + self.id + '/upload',
                 dropzone: {
@@ -38,9 +47,9 @@
                 dropZoneId: 'dropZone' + self.id,
                 uploadOptions: {
                     autoProcessQueue: false,
-                    dictDefaultMessage: '<p><i class="fa fa-cloud-upload"></i><br/>Klicka eller släpp dokument här!</p>',
+                    dictDefaultMessage: '<p><i class="fa fa-cloud-upload"></i><br/>Klicka eller släpp dokument här för att ladda upp!</p>',
                     addedfile(file) {
-                        let passcode = prompt('Ange kod för att ladda upp!');
+                        let passcode = prompt('Ange kod för åtkomst!');
                         axios.post('api/folder/' + self.id + '/passcode', {passcode}).then(function (response) {
                             if (response.data == 'success') {
                                 self.$refs.folderUpload.processQueue();
@@ -62,6 +71,15 @@
             self.load();
         },
         methods: {
+            toggle(view) {
+                let self = this;
+                if(self.view==view) {
+                    self.view=0;
+                }
+                else {
+                    self.view=view;
+                }
+            },
             load() {
                 let self = this;
                 axios.get('api/folder/' + self.id).then(response => self.data = response.data);
@@ -76,7 +94,7 @@
             },
             download(file) {
                 let self = this;
-                let passcode = prompt('Ange kod för att ladda upp!');
+                let passcode = prompt('Ange kod för åtkomst!');
                 axios.post('api/folder/' + self.id + '/passcode', {passcode}).then(function (response) {
                     if (response.data == 'success') {
                         document.location = 'folder/' + self.id + '/item/' + file.id;
@@ -91,16 +109,24 @@
 </script>
 
 <style>
-    .dragdroparea {
-        width: 100%;
-        min-height: 100px;
-        padding: 6px;
-        border: dashed 1px #ccc;
-        vertical-align: middle;
+    .dropzone .dz-message {
+        margin: 4px;
     }
 
-    .dragdroparea p {
-        margin-top: 30px;
+    .dropzone {
+        padding: 6px;
+        margin: 0px;
+        min-height: 0px;
+    }
+
+    .dragdroparea {
+        width: 100%;
+        border: dashed 1px #ccc;
+        vertical-align: middle;
+        max-height: 50px;
+    }
+
+    .dragdroparea {
         cursor: pointer;
     }
 
