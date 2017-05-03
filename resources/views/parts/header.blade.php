@@ -13,9 +13,14 @@
             <span></span>
           </span>
                 <div class="nav-right nav-menu">
-                    <a href="/" class="nav-item is-active">
-                        Hem
+                    @if(\Illuminate\Support\Facades\Auth::user())
+                        <span class="nav-item">
+                            Inloggad som {{ \Illuminate\Support\Facades\Auth::user()->name }}&nbsp;
+                        </span>
+                    <a href="{{ route('logout') }}" class="nav-item">
+                        Logga ut
                     </a>
+                    @endif
                 </div>
             </div>
         </header>
