@@ -21,11 +21,8 @@ Route::get('/home', function () {
     return view('startpage');
 });
 
-Route::get('/login', function () {
-    return view('login');
-});
-
-Route::post('/login', 'Auth\LoginController@login');
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\LoginController@login');
 
 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
 Route::post('register', 'Auth\RegisterController@register');

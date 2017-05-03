@@ -1,1 +1,0 @@
-@include('laravel-bulma-starter::auth.register')
