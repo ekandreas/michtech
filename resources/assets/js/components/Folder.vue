@@ -117,9 +117,7 @@
             },
             loadDocs() {
                 let self = this;
-                self.loadingDocuments = true;
-                self.data.documents = [];
-                self.data.uploads = [];
+                self.setLoading(1);
                 axios.get('api/folder/' + self.id + '/documents', {timeout: 3000}).then(function (response) {
                     self.data.documents = response.data;
                     self.clearLoading();
@@ -130,9 +128,7 @@
             },
             loadUploads() {
                 let self = this;
-                self.loadingUploads = true;
-                self.data.documents = [];
-                self.data.uploads = [];
+                self.setLoading(2);
                 axios.get('api/folder/' + self.id + '/uploads', {timeout: 3000}).then(function (response) {
                     self.data.uploads = response.data;
                     self.clearLoading();
@@ -140,6 +136,21 @@
                     self.data.uploads = [];
                     self.clearLoading();
                 });
+            },
+            setLoading(type)   {
+                let self = this;
+                self.data.documents = [];
+                self.data.uploads = [];
+                if(type==1) {
+                    setTimeout(function () {
+                        self.loadingDocuments = true;
+                    }, 10);
+                }
+                if(type==2) {
+                    setTimeout(function () {
+                        self.loadingUploads = true;
+                    }, 10);
+                }
             },
             clearLoading()   {
                 let self = this;

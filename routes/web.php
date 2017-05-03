@@ -17,11 +17,21 @@ Route::get('/', function () {
     return view('startpage');
 });
 
+Route::get('/home', function () {
+    return view('startpage');
+});
 
 Route::get('/login', function () {
     return view('login');
 });
 
-Route::get('/register', function () {
-    return view('register');
-});
+Route::post('/login', 'Auth\LoginController@login');
+
+Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+Route::post('register', 'Auth\RegisterController@register');
+
+Route::get('/admin', function () {
+    return view('admin');
+})->middleware('auth');
+
+Route::get('logout', 'Auth\LoginController@logout')->name('logout');
