@@ -65,7 +65,7 @@
                 <footer class="modal-card-foot">
                     <a class="button is-success" @click="save">Spara</a>
                     <a class="button" @click="abort">Avbryt</a>
-                    <a class="button is-danger is-pulled-right" @click="remove">Ta bort</a>
+                    <a v-if="currentFolder.id" class="button is-danger is-pulled-right" @click="remove">Ta bort</a>
                 </footer>
             </div>
         </div>
