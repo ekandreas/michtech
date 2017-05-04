@@ -24,6 +24,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/admin/folders', 'AdminFolderController@index');
-Route::put('/admin/folder/{id}', 'AdminFolderController@update');
-
+Route::resource('/admin/folder', 'AdminFolderController');

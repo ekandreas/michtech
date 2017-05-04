@@ -27,6 +27,11 @@
             </div>
         </div>
 
+        <a class="button is-primary" @click="create">
+            <i class="fa fa-plus"></i>&nbsp;
+            Skapa ny mapp
+        </a>
+
         <div class="modal" ref="modal" :class="{'is-active':editMode}" v-if="currentFolder">
             <div class="modal-background" @click="abort"></div>
             <div class="modal-card">
@@ -59,7 +64,8 @@
                 </section>
                 <footer class="modal-card-foot">
                     <a class="button is-success" @click="save">Spara</a>
-                    <a class="button" @click="abort">Cancel</a>
+                    <a class="button" @click="abort">Avbryt</a>
+                    <a class="button is-danger is-pulled-right" @click="remove">Ta bort</a>
                 </footer>
             </div>
         </div>
@@ -83,11 +89,21 @@
         methods: {
             load() {
                 let self = this;
-                axios.get('/api/admin/folders').then(response => self.folders = response.data);
+                axios.get('/api/admin/folder').then(response => self.folders = response.data);
             },
             edit(folder) {
                 let self = this;
                 self.currentFolder = folder;
+                self.editMode = true;
+            },
+            create() {
+                let self = this;
+                self.currentFolder = {
+                    id: 0,
+                    name:'Ett namn på mappen',
+                    passcode:'0000',
+                    prio: '999'
+                };
                 self.editMode = true;
             },
             abort() {
@@ -95,6 +111,15 @@
                 self.editMode = false;
             },
             save() {
+                let self = this;
+                if(self.currentFolder.id) {
+                    self.update();
+                }
+                else {
+                    self.insert();
+                }
+            },
+            update() {
                 let self = this;
                 axios.put('/api/admin/folder/'+self.currentFolder.id, {
                     name: self.currentFolder.name,
@@ -105,8 +130,27 @@
                     self.load();
                 });
             },
-            delete(folder) {
+            insert() {
                 let self = this;
+                axios.post('/api/admin/folder', {
+                    name: self.currentFolder.name,
+                    passcode: self.currentFolder.passcode,
+                    prio: self.currentFolder.prio
+                }).then(function (response) {
+                    self.editMode = false;
+                    self.load();
+                });
+            },
+            remove(folder) {
+                let self = this;
+                let question='Du kommer att tappa kopplingen mellan ID och mapp/sparade filer.\n' +
+                    'Borttag går inte att ångra.';
+                if(confirm(question)) {
+                    axios.delete('/api/admin/folder/'+self.currentFolder.id).then(function (response) {
+                        self.editMode = false;
+                        self.load();
+                    });
+                }
             }
         }
     }

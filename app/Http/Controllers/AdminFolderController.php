@@ -22,4 +22,18 @@ class AdminFolderController extends Controller
 
     }
 
+    public function destroy($id) {
+        $folder = Folder::findOrFail($id);
+        $folder->delete();
+    }
+
+    public function store(Request $request) {
+        $folder = new Folder();
+        $folder->name = $request->name;
+        $folder->passcode = $request->passcode;
+        $folder->prio = $request->prio;
+        $folder->save();
+        return $folder;
+    }
+
 }
