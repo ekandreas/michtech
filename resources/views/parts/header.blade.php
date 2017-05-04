@@ -15,11 +15,14 @@
                 <div class="nav-right nav-menu">
                     @if(\Illuminate\Support\Facades\Auth::user())
                         <span class="nav-item">
-                            Inloggad som {{ \Illuminate\Support\Facades\Auth::user()->name }}&nbsp;
+                            {{ \Illuminate\Support\Facades\Auth::user()->name }}&nbsp;
                         </span>
-                    <a href="{{ route('logout') }}" class="nav-item">
-                        Logga ut
-                    </a>
+                        <a href="{{ route('admin') }}" class="nav-item">
+                            Admin
+                        </a>
+                        <a href="{{ route('logout') }}" class="nav-item">
+                            Logga ut
+                        </a>
                     @endif
                 </div>
             </div>
@@ -27,9 +30,9 @@
     </div>
     <div class="hero-body">
         <div class="container has-text-centered">
-            <h1 class="title is-2">
+            <h2 class="title is-2">
                 Michtech
-            </h1>
+            </h2>
             <h2 class="subtitle is-5">
                 Prototyp mappverktyg
             </h2>

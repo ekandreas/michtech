@@ -15,6 +15,7 @@ mix.version()
     .browserSync('michtech.app')
     .js('resources/assets/js/app.js', 'public/js')
     .js('resources/assets/js/app-folder.js', 'public/js')
+    .js('resources/assets/js/admin.js', 'public/js')
     .sass('resources/assets/sass/app.scss', 'public/css');
 
 // Full API

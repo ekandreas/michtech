@@ -25,11 +25,11 @@ Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 
 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
-Route::post('register', 'Auth\RegisterController@register');
+//Route::post('register', 'Auth\RegisterController@register');
 
 Route::get('/admin', function () {
     return view('admin');
-})->middleware('auth');
+})->middleware('auth')->name('admin');
 
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
