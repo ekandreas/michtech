@@ -13,7 +13,7 @@ class FolderController extends Controller
     public function index()
     {
         $result = [];
-        foreach (Folder::all() as $folder) {
+        foreach (Folder::all()->sortBy("prio") as $folder) {
             $result[] = [
                 'id' => $folder->id,
             ];
