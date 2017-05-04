@@ -56,6 +56,7 @@
                 loadingDocuments: false,
                 loadingUploads: false,
                 uploadUrl: '/api/folder/' + self.id + '/upload',
+                authenticated: false,
                 dropzone: {
                     useFontAwesome: true
                 },
@@ -117,6 +118,7 @@
             },
             loadDocs() {
                 let self = this;
+                self.setAuth();
                 self.setLoading(1);
                 axios.get('api/folder/' + self.id + '/documents', {timeout: 3000}).then(function (response) {
                     self.data.documents = response.data;
@@ -128,6 +130,7 @@
             },
             loadUploads() {
                 let self = this;
+                self.setAuth();
                 self.setLoading(2);
                 axios.get('api/folder/' + self.id + '/uploads', {timeout: 3000}).then(function (response) {
                     self.data.uploads = response.data;
@@ -167,17 +170,24 @@
                 if (mime.match('^application\/')) return 'fa fa-file-o';
                 return 'fa fa-file-o';
             },
-            download(file) {
+            setAuth() {
                 let self = this;
                 let passcode = prompt('Ange kod för åtkomst!');
                 axios.post('api/folder/' + self.id + '/passcode', {passcode}).then(function (response) {
                     if (response.data == 'success') {
-                        document.location = 'folder/' + self.id + '/item/' + file.id;
+                        self.authenticated=true;
                     }
                     else {
-                        alert('Felaktig kod angiven!')
+                        alert('Felaktig kod angiven!');
+                        self.authenticated=false;
                     }
                 });
+            },
+            download(file) {
+                let self = this;
+                if(self.authenticated) {
+                    document.location = 'folder/' + self.id + '/item/' + file;
+                }
             }
         }
     }
