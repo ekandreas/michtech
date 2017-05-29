@@ -38,5 +38,7 @@ class IndexFiles extends Command
     public function handle()
     {
         dispatch(new \App\Jobs\IndexFiles());
+        echo "Job created " . date('Y-m-d H:i:s');
+        return true;
     }
 }
