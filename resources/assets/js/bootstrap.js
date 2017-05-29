@@ -15,10 +15,9 @@ window.$ = window.jQuery = require('jquery');
  * and simple, leaving you to focus on building your next great project.
  */
 
-var Vue = require('vue');
-window.Vue = Vue;
+window.Vue = require('vue');
 
-Vue.use(require('vue-cookies'));
+window.cookies = require('browser-cookies');
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

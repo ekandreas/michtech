@@ -23,11 +23,24 @@
         </div>
 
         <a class="panel-block" v-if="data.documents.length" v-for="file in data.documents" @click="download(file)">
-            {{ file }}
+            <span class="panel-icon">
+              <i v-if="file.type=='file'" class="fa fa-file-o"></i>
+              <i v-if="file.type=='folder'" class="fa fa-folder"></i>
+              <i v-if="file.type=='back'" class="fa fa-arrow-up"></i>
+            </span>
+            <span v-if="file.type=='back'">
+                ...
+            </span>
+            <span v-else>
+                {{ file.path.substr(file.path.lastIndexOf("/")+1) }}
+            </span>
         </a>
 
         <a class="panel-block" v-if="data.uploads.length" v-for="file in data.uploads" @click="download(file)">
-            {{ file }}
+            <span class="panel-icon">
+              <i v-if="file.type=='file'" class="fa fa-file-o"></i>
+            </span>
+            {{ file.path.substr(file.path.lastIndexOf("/")+1) }}
         </a>
 
         <div class="panel-block">
@@ -45,6 +58,8 @@
 </template>
 
 <script>
+
+    import VueCookies from 'vue-cookies'
 
     export default {
         props: ['id'],
@@ -65,18 +80,15 @@
                     autoProcessQueue: false,
                     dictDefaultMessage: '<p><i class="fa fa-cloud-upload"></i><br/>Klicka eller släpp dokument här för att ladda upp!</p>',
                     addedfile(file) {
-                        let passcode = prompt('Ange kod för åtkomst!');
-                        axios.post('api/folder/' + self.id + '/passcode', {passcode}).then(function (response) {
-                            if (response.data == 'success') {
-                                self.$refs.folderUpload.processQueue();
-                                setTimeout(function () {
-                                    self.load();
-                                }, 500);
-                            }
-                            else {
-                                alert('Felaktig kod angiven!')
-                            }
-                        });
+                        self.setAuth();
+                        if(self.authenticated) {
+                            self.setLoading(2);
+                            self.$refs.folderUpload.processQueue();
+                            setTimeout(function () {
+                                self.load();
+                                self.clearLoading();
+                            }, 1000);
+                        }
                     }
                 }
             }
@@ -114,6 +126,7 @@
                 self.data.documents = [];
                 axios.get('api/folder/' + self.id).then(function (response) {
                     self.data = response.data;
+                    self.clearLoading();
                 });
             },
             loadDocs() {
@@ -173,7 +186,7 @@
             setAuth() {
                 let self = this;
 
-                if (self.$cookies.get('michtech-folder-' + self.id)) {
+                if (cookies.get('michtech-folder-' + self.id)) {
                     self.authenticated = true;
                     return;
                 }
@@ -182,7 +195,7 @@
                 axios.post('api/folder/' + self.id + '/passcode', {passcode}).then(function (response) {
                     if (response.data == 'success') {
                         self.authenticated = true;
-                        self.$cookies.set('michtech-folder-' + self.id, passcode, 1, '/');
+                        cookies.set('michtech-folder-' + self.id, passcode, {expires: 1}); // Expires after 1 day
                     }
                     else {
                         alert('Felaktig kod angiven!');
@@ -196,7 +209,21 @@
             download(file) {
                 let self = this;
                 if (self.authenticated) {
-                    document.location = 'folder/' + self.id + '/item/' + file;
+
+                    if(file.type=='file') {
+                        document.location = 'folder/' + self.id + '/item/' + file.id;
+                    }
+                    else {
+                        self.setLoading(1);
+                        axios.get('api/folder/' + self.id + '/documents/'+file.id, {timeout: 3000}).then(function (response) {
+                            if (self.authenticated) self.data.documents = response.data;
+                            self.clearLoading();
+                        }).catch(function () {
+                            self.clearLoading();
+                            self.data.documents = [];
+                        });
+                    }
+
                 }
             }
         }

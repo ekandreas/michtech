@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\File;
 use App\Folder;
 use App\Item;
 use App\Jobs\IndexFiles;
@@ -39,8 +40,27 @@ class FolderController extends Controller
         Storage::disk('s3')->makeDirectory("folder-{$folder->id}");
         Storage::disk('s3')->makeDirectory("folder-{$folder->id}/documents");
 
-        $documents = Storage::disk('s3')->files("folder-{$folder->id}/documents");
-        return $documents;
+        $fileFolder = File::where('path', "folder-{$folder->id}/documents")->first();
+        $result = File::where('parent', $fileFolder->id)->get();
+        return $result;
+    }
+
+    public function folder($id, $fileId)
+    {
+        $result = [];
+        $fileFolder = File::find($fileId);
+
+        $parent = File::find($fileFolder->parent);
+
+        if ($parent->parent) {
+            $parent->type='back';
+            $result[] = $parent;
+        }
+
+        foreach (File::where('parent', $fileFolder->id)->get() as $file) {
+            $result[] = $file;
+        }
+        return $result;
     }
 
     public function uploads($id)
@@ -50,8 +70,9 @@ class FolderController extends Controller
         Storage::disk('s3')->makeDirectory("folder-{$folder->id}");
         Storage::disk('s3')->makeDirectory("folder-{$folder->id}/uploads");
 
-        $uploads = Storage::disk('s3')->allFiles("folder-{$folder->id}/uploads");
-        return $uploads;
+        $fileFolder = File::where('path', "folder-{$folder->id}/uploads")->first();
+        $result = File::where('parent', $fileFolder->id)->get();
+        return $result;
     }
 
     public function passcode(Request $request, $id)
@@ -65,13 +86,28 @@ class FolderController extends Controller
 
     public function upload(Request $request, $id)
     {
-        $folder = Folder::findOrFail($id);
+        $fileName = $request->file('file')->getClientOriginalName();
+        $path = "folder-{$id}/uploads/{$fileName}";
 
         $result = $request->file('file')->storeAs(
-            "folder-{$folder->id}/uploads",
-            $request->file('file')->getClientOriginalName(),
+            "folder-{$id}/uploads",
+            $fileName,
             "s3"
         );
+
+        $base = File::where('path', "folder-{$id}/uploads")->first();
+
+        $size = Storage::disk('s3')->size($path);
+        $mime = Storage::disk('s3')->mimeType($path);
+        $file = new File([
+            'path' => $path,
+            'type' => 'file',
+            'size' => $size ? round($size/1024) : null,
+            'mime' => $mime ?: null,
+            'parent' => $base->id,
+            'folder' => $id,
+        ]);
+        $file->save();
 
         $this->dispatch(new IndexFiles());
 
@@ -80,24 +116,20 @@ class FolderController extends Controller
 
     public function download(Request $request, $id, $itemId)
     {
+        $file = File::find($itemId);
 
-        $item = Item::findOrFail($itemId);
+        $fileName = basename($file->path);
 
-        $pathToFile=storage_path()."/app/".$item->path;
-        return response()->download($pathToFile, $item->name);
+        $content = Storage::disk("s3")->get($file->path);
 
-        $file = Storage::disk("local")->get($item->path);
+        $headers = [
+            'Content-Type' => $file->mime,
+            'Content-Description' => 'File Transfer',
+            'Content-Disposition' => "attachment; filename={$fileName}",
+            'filename' => $fileName,
+        ];
 
-//        return Storage::url($item->path);
-
-        return response()->download(
-            $file,
-            $item->name
-//            [
-//                "Content-Type: {$item->mime}",
-//                "Content-Disposition: attachment; filename='{$item->name}'"
-//            ]
-        );
+        return response($content, 200, $headers);
 
     }
 

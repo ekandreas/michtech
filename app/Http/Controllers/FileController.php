@@ -19,6 +19,16 @@ class FileController extends Controller
             }
         }
 
+        $files = File::all();
+        if($files) {
+            foreach ($files as $file) {
+                if(!Storage::disk('s3')->exists($file->path)) {
+                    echo "DELETE {$file->id} => {$file->path}<br/>\n\r";
+                    $file->delete();
+                }
+            }
+        }
+
     }
 
     private function addFolders($path, $folderId)
@@ -45,7 +55,7 @@ class FileController extends Controller
             $file->save();
         }
 
-        echo "{$file->id} => {$path}<br/>";
+        echo "{$file->id} => {$path}<br/>\n\r";
 
         $files = Storage::disk('s3')->files($path);
         if($files) {
@@ -81,7 +91,6 @@ class FileController extends Controller
             ]);
             $file->save();
         }
-        echo "{$file->id} => {$path}<br/>";
     }
 
 }
