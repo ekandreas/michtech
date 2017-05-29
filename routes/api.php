@@ -21,6 +21,9 @@ Route::get('folder/{id}/uploads', 'FolderController@uploads');
 Route::get('folder/{id}', 'FolderController@show');
 Route::get('folder', 'FolderController@index');
 
+Route::post('s3/notification', 'S3Notification@index');
+Route::get('s3/notification', 'S3Notification@index');
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
