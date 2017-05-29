@@ -18,6 +18,7 @@ host('elseif.se')
 set('repository', 'https://github.com/ekandreas/michtech.git');
 set('env', 'prod');
 set('keep_releases', 2);
+set('writable_dirs', []);
 
 task('pull', function () {
 

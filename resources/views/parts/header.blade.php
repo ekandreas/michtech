@@ -30,7 +30,9 @@
     </div>
     <div class="hero-body">
         <div class="container has-text-centered">
-            <img src="{{ asset('images/michtech-logo.png') }}" alt="Michtech logo" />
+            <a href="/">
+                <img src="{{ asset('images/michtech-logo.png') }}" alt="Michtech logo" />
+            </a>
         </div>
     </div>
 </section>
