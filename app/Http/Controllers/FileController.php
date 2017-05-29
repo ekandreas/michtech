@@ -22,7 +22,13 @@ class FileController extends Controller
         $files = File::all();
         if($files) {
             foreach ($files as $file) {
-                if(!Storage::disk('s3')->exists($file->path)) {
+                if($file->type=='file' && !Storage::disk('s3')->exists($file->path)) {
+                    echo "DELETE {$file->id} => {$file->path}<br/>\n\r";
+                    $file->delete();
+                }
+            }
+            foreach ($files as $file) {
+                if($file->type=='folder' && !Storage::disk('s3')->exists($file->path)) {
                     echo "DELETE {$file->id} => {$file->path}<br/>\n\r";
                     $file->delete();
                 }
