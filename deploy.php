@@ -2,21 +2,22 @@
 namespace Deployer;
 
 require __DIR__ . "/vendor/autoload.php";
+require __DIR__ . "/vendor/deployer/deployer/recipe/laravel.php";
 
-require __DIR__ . "/vendor/deployer/deployer/recipe/common.php";
-
-set('ssh_type', 'native');
-set('ssh_multiplexing', true);
-
-set('domain', 'michtech.app');
-
-server('dev','michtech.app');
-
-server('production', 'elseif.se', 22)
+host('elseif.se')
+    ->port(22)
     ->set('deploy_path', '~/michtech.elseif.se')
     ->user('forge')
+    ->forwardAgent(true)
+    ->multiplexing(true)
+    ->set('branch', 'master')
     ->stage('production')
-    ->identityFile();
+    ->set('database', 'michtech')
+    ->identityFile('~/.ssh/id_rsa');
+
+set('repository', 'https://github.com/ekandreas/michtech.git');
+set('env', 'prod');
+set('keep_releases', 2);
 
 task('pull', function () {
 

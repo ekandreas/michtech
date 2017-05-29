@@ -36,3 +36,6 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/sync-files', 'FileController@syncFiles')->middleware('auth')->name('admin');
+

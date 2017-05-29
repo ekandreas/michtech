@@ -15,7 +15,7 @@
         "fzaninotto/faker": "*",
         "mockery/mockery": "*",
         "phpunit/phpunit": "*",
-        "deployer/deployer": "^4.3"
+        "deployer/deployer": "*"
     },
     "autoload": {
         "classmap": [

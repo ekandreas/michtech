@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Folder;
 use App\Item;
+use App\Jobs\IndexFiles;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
@@ -71,6 +72,8 @@ class FolderController extends Controller
             $request->file('file')->getClientOriginalName(),
             "s3"
         );
+
+        $this->dispatch(new IndexFiles());
 
         return $result;
     }

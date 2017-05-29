@@ -1,6 +1,6 @@
-<section class="hero is-black is-large header-image" style="background-image: url('./../images/leo.jpg')">
+<section class="hero header-image">
     <div class="hero-head">
-        <header class="nav">
+        <header class="nav" style="background-color: #333; color: #fff;">
             <div class="container">
                 <div class="nav-left">
                     <a class="nav-item" href="/">
@@ -30,12 +30,7 @@
     </div>
     <div class="hero-body">
         <div class="container has-text-centered">
-            <h2 class="title is-2">
-                Michtech
-            </h2>
-            <h2 class="subtitle is-5">
-                Prototyp mappverktyg
-            </h2>
+            <img src="{{ asset('images/michtech-logo.png') }}" alt="Michtech logo" />
         </div>
     </div>
 </section>
