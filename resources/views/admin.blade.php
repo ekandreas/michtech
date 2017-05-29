@@ -8,5 +8,5 @@
 @endsection
 
 @section('scripts')
-    <script async type="text/javascript" src="{{ mix('js/admin.js') }}"></script>
+    <script async type="text/javascript" src="{{ mix('dist/admin.js') }}"></script>
 @endsection

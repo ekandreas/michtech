@@ -121,7 +121,7 @@
                 self.setAuth();
                 self.setLoading(1);
                 axios.get('api/folder/' + self.id + '/documents', {timeout: 3000}).then(function (response) {
-                    self.data.documents = response.data;
+                    if (self.authenticated) self.data.documents = response.data;
                     self.clearLoading();
                 }).catch(function () {
                     self.clearLoading();
@@ -133,7 +133,7 @@
                 self.setAuth();
                 self.setLoading(2);
                 axios.get('api/folder/' + self.id + '/uploads', {timeout: 3000}).then(function (response) {
-                    self.data.uploads = response.data;
+                    if (self.authenticated) self.data.uploads = response.data;
                     self.clearLoading();
                 }).catch(function () {
                     self.data.uploads = [];
@@ -144,12 +144,12 @@
                 let self = this;
                 self.data.documents = [];
                 self.data.uploads = [];
-                if(type==1) {
+                if (type == 1) {
                     setTimeout(function () {
                         self.loadingDocuments = true;
                     }, 10);
                 }
-                if(type==2) {
+                if (type == 2) {
                     setTimeout(function () {
                         self.loadingUploads = true;
                     }, 10);
@@ -172,20 +172,30 @@
             },
             setAuth() {
                 let self = this;
+
+                if (self.$cookies.get('michtech-folder-' + self.id)) {
+                    self.authenticated = true;
+                    return;
+                }
+
                 let passcode = prompt('Ange kod för åtkomst!');
                 axios.post('api/folder/' + self.id + '/passcode', {passcode}).then(function (response) {
                     if (response.data == 'success') {
-                        self.authenticated=true;
+                        self.authenticated = true;
+                        self.$cookies.set('michtech-folder-' + self.id, passcode, 1, '/');
                     }
                     else {
                         alert('Felaktig kod angiven!');
-                        self.authenticated=false;
+                        self.authenticated = false;
+                        self.$cookies.remove('michtech-folder-' + self.id);
+                        self.data.documents = [];
+                        self.data.uploads = [];
                     }
                 });
             },
             download(file) {
                 let self = this;
-                if(self.authenticated) {
+                if (self.authenticated) {
                     document.location = 'folder/' + self.id + '/item/' + file;
                 }
             }

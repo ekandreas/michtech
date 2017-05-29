@@ -1,6 +1,10 @@
 {
-  "/js/app-folder.js": "/js/app-folder.fd7c28a980e25f008647.js",
-  "/js/app.js": "/js/app.5cd26ded629fa5716193.js",
-  "/css/app.css": "/css/app.0e7f079c2ffb633fd5d23ad300309993.css",
-  "/js/admin.js": "/js/admin.65363a23f2d10e0a2932.js"
+  "/js/app-folder.js": "/js/app-folder.acc941218d67ca4dbca9.js",
+  "/js/app.js": "/js/app.414eae9431305deccfa3.js",
+  "/css/app.css": "/css/app.f827f689e4910721c98d5858289246c1.css",
+  "/js/admin.js": "/js/admin.10169b6e13f0c8b36e85.js",
+  "/dist/app-folder.js": "/dist/app-folder.acc941218d67ca4dbca9.js",
+  "/dist/app.js": "/dist/app.414eae9431305deccfa3.js",
+  "/dist/app.css": "/dist/app.f827f689e4910721c98d5858289246c1.css",
+  "/dist/admin.js": "/dist/admin.10169b6e13f0c8b36e85.js"
 }

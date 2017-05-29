@@ -15,6 +15,7 @@
     "laravel-mix": "*",
     "lodash": "*",
     "vue": "*",
+    "vue-cookies": "*",
     "vue2-dropzone": "*"
   }
 }

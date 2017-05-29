@@ -13,10 +13,10 @@ let mix = require('laravel-mix');
 
 mix.version()
     .browserSync('michtech.app')
-    .js('resources/assets/js/app.js', 'public/js')
-    .js('resources/assets/js/app-folder.js', 'public/js')
-    .js('resources/assets/js/admin.js', 'public/js')
-    .sass('resources/assets/sass/app.scss', 'public/css');
+    .js('resources/assets/js/app.js', 'public/dist')
+    .js('resources/assets/js/app-folder.js', 'public/dist')
+    .js('resources/assets/js/admin.js', 'public/dist')
+    .sass('resources/assets/sass/app.scss', 'public/dist');
 
 // Full API
 // mix.js(src, output);

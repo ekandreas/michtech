@@ -15,7 +15,10 @@ window.$ = window.jQuery = require('jquery');
  * and simple, leaving you to focus on building your next great project.
  */
 
-window.Vue = require('vue');
+var Vue = require('vue');
+window.Vue = Vue;
+
+Vue.use(require('vue-cookies'));
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -34,6 +37,7 @@ let es6Promise = require('es6-promise');
 if (!global.Promise) {
     es6Promise.polyfill();
 }
+
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
