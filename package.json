@@ -6,9 +6,9 @@
     "hot": "cross-env NODE_ENV=development webpack-dev-server --inline --hot",
     "production": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
-  "devDependencies": {
+  "dependencies": {
     "axios": "*",
-    "browser-cookies": "^1.1.0",
+    "browser-cookies": "*",
     "bulma": "*",
     "dropzone": "*",
     "es6-promise": "*",
@@ -16,6 +16,7 @@
     "laravel-mix": "*",
     "lodash": "*",
     "vue": "*",
+    "vue-bulma": "*",
     "vue-cookies": "*",
     "vue2-dropzone": "*"
   }

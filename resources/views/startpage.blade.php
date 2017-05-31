@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="column is-6">
-                @include('parts.michtech')
+                @include('parts.texts')
             </div>
         </div>
     </div>

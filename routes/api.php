@@ -29,3 +29,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::resource('/admin/folder', 'AdminFolderController');
+Route::resource('/admin/texts', 'AdminTextController');

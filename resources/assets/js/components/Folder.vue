@@ -1,6 +1,7 @@
 <template>
+
     <div class="panel folder" v-if="data.name">
-        <p class="panel-heading">
+        <p class="panel-heading" style="background-color: #333; color:#fff;">
             {{ data.name }}
         </p>
         <div class="panel-block">
