@@ -53,6 +53,8 @@ $response = $kernel->handle(
     $request = Illuminate\Http\Request::capture()
 );
 
+$response->header('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
+
 $response->send();
 
 $kernel->terminate($request, $response);

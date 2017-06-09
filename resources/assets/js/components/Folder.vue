@@ -3,6 +3,7 @@
     <div class="panel folder" v-if="data.name">
         <p class="panel-heading" style="background-color: #333; color:#fff;">
             {{ data.name }}
+            <i v-if="authenticated" class="fa fa-unlock-alt pull-right" aria-hidden="true"></i>
         </p>
         <div class="panel-block">
             <div class="column">
@@ -33,7 +34,7 @@
                 ...
             </span>
             <span v-else>
-                {{ file.path.substr(file.path.lastIndexOf("/")+1) }}
+                {{ file.path.substr(file.path.lastIndexOf("/") + 1) }}
             </span>
         </a>
 
@@ -41,14 +42,14 @@
             <span class="panel-icon">
               <i v-if="file.type=='file'" class="fa fa-file-o"></i>
             </span>
-            {{ file.path.substr(file.path.lastIndexOf("/")+1) }}
+            {{ file.path.substr(file.path.lastIndexOf("/") + 1) }}
         </a>
 
-        <div class="panel-block">
+        <div class="panel-block" v-if="authenticated && view==2">
             <dropzone
                     :useCustomDropzoneOptions="true"
                     :dropzoneOptions="uploadOptions"
-                    :autoProcessQueue="false"
+                    :autoProcessQueue="true"
                     ref="folderUpload"
                     :useFontAwesome="dropzone.useFontAwesome"
                     :id="dropZoneId"
@@ -78,18 +79,12 @@
                 },
                 dropZoneId: 'dropZone' + self.id,
                 uploadOptions: {
-                    autoProcessQueue: false,
+                    autoProcessQueue: true,
                     dictDefaultMessage: '<p><i class="fa fa-cloud-upload"></i><br/>Klicka eller släpp dokument här för att ladda upp!</p>',
-                    addedfile(file) {
-                        self.setAuth();
-                        if(self.authenticated) {
-                            self.setLoading(2);
-                            self.$refs.folderUpload.processQueue();
-                            setTimeout(function () {
-                                self.load();
-                                self.clearLoading();
-                            }, 1000);
-                        }
+                    success() {
+                        self.loadUploads();
+                        self.view = 2;
+                        self.$refs.folderUpload.removeAllFiles();
                     }
                 }
             }
@@ -98,6 +93,9 @@
         {
             let self = this;
             self.load();
+            if (cookies.get('michtech-folder-' + self.id)) {
+                self.authenticated = true;
+            }
         },
         methods: {
             toggle(view) {
@@ -211,12 +209,12 @@
                 let self = this;
                 if (self.authenticated) {
 
-                    if(file.type=='file') {
+                    if (file.type == 'file') {
                         document.location = 'folder/' + self.id + '/item/' + file.id;
                     }
                     else {
                         self.setLoading(1);
-                        axios.get('api/folder/' + self.id + '/documents/'+file.id, {timeout: 3000}).then(function (response) {
+                        axios.get('api/folder/' + self.id + '/documents/' + file.id, {timeout: 3000}).then(function (response) {
                             if (self.authenticated) self.data.documents = response.data;
                             self.clearLoading();
                         }).catch(function () {
