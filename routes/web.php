@@ -12,7 +12,7 @@
 */
 
 if (env('APP_ENV') === 'production') {
-    \Illuminate\Support\Facades\URL::forceSchema('https');
+    URL::forceSchema('https');
 }
 
 Route::get('folder/{id}/item/{item}', 'FolderController@download');
