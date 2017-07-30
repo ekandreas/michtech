@@ -11,8 +11,8 @@
 |
 */
 
-if (env('APP_ENV') === 'production') {
-    //URL::forceSchema('https');
+if (env('APP_ENV') === 'production' && !App::runningInConsole()) {
+    URL::forceSchema('https');
 }
 
 Route::get('folder/{id}/item/{item}', 'FolderController@download');
