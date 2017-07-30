@@ -4,9 +4,9 @@ namespace Deployer;
 require __DIR__ . "/vendor/autoload.php";
 require __DIR__ . "/vendor/deployer/deployer/recipe/laravel.php";
 
-host('elseif.se')
+host('139.162.161.167')
     ->port(22)
-    ->set('deploy_path', '~/michtech.elseif.se')
+    ->set('deploy_path', '~/www.michtech.se')
     ->user('forge')
     ->forwardAgent(true)
     ->multiplexing(true)
@@ -19,6 +19,19 @@ set('repository', 'https://github.com/ekandreas/michtech.git');
 set('env', 'prod');
 set('keep_releases', 2);
 set('writable_dirs', []);
+
+task('deploy:restart', function () {
+    run("cd {{deploy_path}}/current && php artisan storage:link");
+    run("cd {{deploy_path}}/current && php artisan migrate --force");
+    run("cd {{deploy_path}}/current && php artisan config:clear");
+    run("cd {{deploy_path}}/current && php artisan queue:restart");
+    run("sudo /etc/init.d/php7.1-fpm restart");
+    //run("sudo /etc/init.d/nginx reload");
+    //run("sudo /etc/init.d/php7.1-fpm reload");
+    //run("sudo /etc/init.d/supervisor restart");
+})
+    ->desc('Restarting and other stuff after deploy');
+after('cleanup', 'deploy:restart');
 
 task('pull', function () {
 
