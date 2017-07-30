@@ -6,7 +6,7 @@
             <div class="column is-6" id="app-folder">
                 <div class="panel">
                     <p class="panel-block image">
-                        <img src="/images/michtech-measure.jpg" alt="Michtech mäter" />
+                        <img src="{{ asset('images/michtech-measure.jpg') }}" alt="Michtech mäter" />
                     </p>
                 </div>
 
