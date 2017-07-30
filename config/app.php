@@ -181,6 +181,7 @@ return [
          * Custom providers, 3-party
          */
         Atomescrochus\LaravelBulmaStarter\LaravelBulmaStarterServiceProvider::class,
+        Fideloper\Proxy\TrustedProxyServiceProvider::class,
 
     ],
 
