@@ -79,6 +79,7 @@
                 },
                 dropZoneId: 'dropZone' + self.id,
                 uploadOptions: {
+                    maxFilesize: 512,
                     autoProcessQueue: true,
                     dictDefaultMessage: '<p><i class="fa fa-cloud-upload"></i><br/>Klicka eller släpp dokument här för att ladda upp!</p>',
                     success() {
