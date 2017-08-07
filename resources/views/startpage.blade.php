@@ -11,7 +11,7 @@
                 </div>
 
                 <div v-for="folder in folders">
-                    <folder :id="folder.id"></folder>
+                    <folder :id="folder.id" :showdocuments="folder.showDocuments" :showuploads="folder.showUploads"></folder>
                 </div>
             </div>
             <div class="column is-6">

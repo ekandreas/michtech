@@ -6,7 +6,7 @@
             <i v-if="authenticated" class="fa fa-unlock-alt pull-right" aria-hidden="true"></i>
         </p>
         <div class="panel-block">
-            <div class="column">
+            <div class="column" v-if="showdocuments">
                 <button @click="toggle(1)"
                         ref="documentButton"
                         class="button is-success is-fullwidth"
@@ -14,7 +14,7 @@
                     Dokument
                 </button>
             </div>
-            <div class="column">
+            <div class="column" v-if="showuploads">
                 <button @click="toggle(2)"
                         ref="uploadButton"
                         class="button is-info is-fullwidth"
@@ -64,7 +64,7 @@
     import VueCookies from 'vue-cookies'
 
     export default {
-        props: ['id'],
+        props: ['id','showdocuments','showuploads'],
         data() {
             let self = this;
             return {

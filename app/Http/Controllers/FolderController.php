@@ -18,6 +18,8 @@ class FolderController extends Controller
         foreach (Folder::all()->sortBy("prio") as $folder) {
             $result[] = [
                 'id' => $folder->id,
+                'showDocuments' => $folder->documents,
+                'showUploads' => $folder->uploads,
             ];
         }
         return $result;
@@ -30,6 +32,8 @@ class FolderController extends Controller
             'name' => $folder->name,
             'documents' => [],
             'uploads' => [],
+            'showDocuments' => $folder->documents,
+            'showUploads' => $folder->uploads,
         ];
     }
 

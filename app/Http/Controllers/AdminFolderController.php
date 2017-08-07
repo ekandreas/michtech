@@ -18,6 +18,8 @@ class AdminFolderController extends Controller
         $folder->name = $request->name;
         $folder->passcode = $request->passcode;
         $folder->prio = $request->prio;
+        $folder->documents = (bool)$request->documents;
+        $folder->uploads = (bool)$request->uploads;
         $folder->save();
 
     }
@@ -32,6 +34,8 @@ class AdminFolderController extends Controller
         $folder->name = $request->name;
         $folder->passcode = $request->passcode;
         $folder->prio = $request->prio;
+        $folder->documents = $request->documents;
+        $folder->uploads = $request->uploads;
         $folder->save();
         return $folder;
     }

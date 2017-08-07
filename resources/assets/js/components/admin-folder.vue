@@ -48,6 +48,20 @@
                         <p class="help">Namnet på mappen för användarna</p>
                     </div>
                     <div class="field">
+                        <label class="label">Dokument</label>
+                        <p class="control">
+                            <input class="checkbox" type="checkbox" v-model="currentFolder.documents">
+                        </p>
+                        <p class="help">Ska dokument användas i denna mapp?</p>
+                    </div>
+                    <div class="field">
+                        <label class="label">Uppladdning</label>
+                        <p class="control">
+                            <input class="checkbox" type="checkbox" v-model="currentFolder.uploads">
+                        </p>
+                        <p class="help">Ska uppladdning användas i denna mapp?</p>
+                    </div>
+                    <div class="field">
                         <label class="label">Pinkod</label>
                         <p class="control">
                             <input class="input" type="text" placeholder="Pinkod" v-model="currentFolder.passcode">
@@ -102,7 +116,9 @@
                     id: 0,
                     name:'Ett namn på mappen',
                     passcode:'0000',
-                    prio: '999'
+                    prio: '999',
+                    uploads: true,
+                    documents: true
                 };
                 self.editMode = true;
             },
@@ -124,7 +140,9 @@
                 axios.put('/api/admin/folder/'+self.currentFolder.id, {
                     name: self.currentFolder.name,
                     passcode: self.currentFolder.passcode,
-                    prio: self.currentFolder.prio
+                    prio: self.currentFolder.prio,
+                    documents: self.currentFolder.documents,
+                    uploads: self.currentFolder.uploads
                 }).then(function (response) {
                     self.editMode = false;
                     self.load();
@@ -135,7 +153,9 @@
                 axios.post('/api/admin/folder', {
                     name: self.currentFolder.name,
                     passcode: self.currentFolder.passcode,
-                    prio: self.currentFolder.prio
+                    prio: self.currentFolder.prio,
+                    documents: self.currentFolder.documents,
+                    uploads: self.currentFolder.uploads
                 }).then(function (response) {
                     self.editMode = false;
                     self.load();
