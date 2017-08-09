@@ -41,5 +41,5 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/sync-files', 'FileController@syncFiles')->middleware('auth')->name('sync');
+Route::get('/sync-files', 'FileController@syncFiles')->name('sync');
 

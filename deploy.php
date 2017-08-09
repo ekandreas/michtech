@@ -41,15 +41,15 @@ task('pull', function () {
     $password = getenv('PROD_DB_PASSWORD');
 
     $actions = [
-        "ssh forge@elseif.se 'mysqldump michtech -u michtech -p{$password} --skip-lock-tables --hex-blob --single-transaction | gzip' > db.sql.gz",
+        "ssh forge@139.162.161.167 'mysqldump michtech -u michtech -p{$password} --skip-lock-tables --hex-blob --single-transaction | gzip' > db.sql.gz",
         "gzip -df db.sql.gz",
         "mysql -u root michtech < db.sql",
         "rm -f db.sql",
-        "rsync -rve ssh forge@elseif.se:{{deploy_path}}/storage storage",
+        "rsync -rve ssh forge@139.162.161.167:{{deploy_path}}/shared/storage storage",
     ];
 
     foreach ($actions as $action) {
         writeln("{$action}");
-        writeln(runLocally($action, 999));
+        writeln(runLocally($action, ['timeout'=>999]));
     }
 });
