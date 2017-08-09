@@ -8,6 +8,7 @@ use App\Item;
 use App\Jobs\IndexFiles;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 
 class FolderController extends Controller
@@ -57,7 +58,7 @@ class FolderController extends Controller
         $parent = File::find($fileFolder->parent);
 
         if ($parent->parent) {
-            $parent->type='back';
+            $parent->type = 'back';
             $result[] = $parent;
         }
 
@@ -106,7 +107,7 @@ class FolderController extends Controller
         $file = new File([
             'path' => $path,
             'type' => 'file',
-            'size' => $size ? round($size/1024) : null,
+            'size' => $size ? round($size / 1024) : null,
             'mime' => $mime ?: null,
             'parent' => $base->id,
             'folder' => $id,
@@ -122,19 +123,11 @@ class FolderController extends Controller
     {
         $file = File::find($itemId);
 
-        $fileName = basename($file->path);
+        $path = $file->path;
+        Storage::disk('s3')->setVisibility($path, 'public');
+        $url = Storage::disk('s3')->url($path);
 
-        $content = Storage::disk("s3")->get($file->path);
-
-        $headers = [
-            'Content-Type' => $file->mime,
-            'Content-Description' => 'File Transfer',
-            'Content-Disposition' => "attachment; filename={$fileName}",
-            'filename' => $fileName,
-        ];
-
-        return response($content, 200, $headers);
-
+        return redirect($url);
     }
 
 }
