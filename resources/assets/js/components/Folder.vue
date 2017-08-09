@@ -211,7 +211,16 @@
                 if (self.authenticated) {
 
                     if (file.type == 'file') {
-                        document.location = 'folder/' + self.id + '/item/' + file.id;
+
+                        var file_path = 'folder/' + self.id + '/item/' + file.id;
+                        var a = document.createElement('A');
+                        a.href = file_path;
+                        a.download = file_path.substr(file_path.lastIndexOf('/') + 1);
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+
+                        //document.location = 'folder/' + self.id + '/item/' + file.id;
                     }
                     else {
                         self.setLoading(1);

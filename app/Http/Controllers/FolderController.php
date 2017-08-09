@@ -124,10 +124,20 @@ class FolderController extends Controller
         $file = File::find($itemId);
 
         $path = $file->path;
+        $base = basename($file->path);
         Storage::disk('s3')->setVisibility($path, 'public');
         $url = Storage::disk('s3')->url($path);
 
-        return redirect($url);
+        $headers = [
+            'Content-Type' => $file->mime,
+            'Content-Description' => 'File Transfer',
+            'Content-Disposition' => "attachment; filename={$base}",
+            'filename' => $base,
+        ];
+
+        return response()->redirectTo($url, 302, $headers);
+        //return redirect()->redurecaway($url);
+
     }
 
 }
