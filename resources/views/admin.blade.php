@@ -24,6 +24,6 @@
 @endsection
 
 @section('scripts')
-    <script async type="text/javascript" src="{{ mix('dist/admin.js') }}"></script>
+    <script async type="text/javascript" src="{{ mix('/dist/admin.js') }}"></script>
     <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=d43ssffprz5kchs9kcgx9l0xfatdriksob83aqnld3b6irab"></script>
 @endsection

@@ -1,0 +1,32 @@
+////////////////////////////////////////////////
+// SANDSTONE
+////////////////////////////////////////////////
+$grey-darker:  #2a2a26;
+$grey-dark:    #30302B;
+$grey:         #8E8C84;
+$grey-light:   #F9F6F2;
+$grey-lighter: #e6e1d7;
+
+$white-ter:    #F9F6F2;
+
+$orange:       #FFE261;
+$green:        #9DCC55;
+$blue:         #2FB4E4;
+$red:          #DE5E59;
+
+$primary: #396893 !default;
+
+$family-serif: "PT Sans Caption", "Helvetica Neue", Helvetica, Arial, serif;
+$family-sans-serif: "PT Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$body-size: 16px;
+
+$link: $blue;
+
+$pagination-background: $grey-lighter;
+
+$navbar-background: $blue;
+$navbar-item: $grey-light;
+$navbar-item-hover: $white-ter;
+$navbar-item-active: $white-ter;
+$navbar-item-hover-background: $grey-darker;
+$navbar-dropdown-arrow: $navbar-item;

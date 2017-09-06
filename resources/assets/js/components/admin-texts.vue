@@ -87,7 +87,7 @@
                     'searchreplace visualblocks code',
                     'insertdatetime table contextmenu paste code'
                 ],
-                toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link',
+                toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link | code',
                 content_css: [
                     '//fonts.googleapis.com/css?family=Roboto:300,300i,400,400i'
                 ],

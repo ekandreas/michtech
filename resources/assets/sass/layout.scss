@@ -1,13 +1,18 @@
 
 footer .content p {
-  color: #fff;
+  color: #F9F6F2;
 }
 
 footer .content a:hover {
-  color: #fff;
+  color: #F9F6F2;
   text-decoration: underline;
 }
 
 .main {
   min-height: 800px;
+}
+
+p.panel-heading {
+  background-color: #e6e1d7;
+  color: #30302B;
 }

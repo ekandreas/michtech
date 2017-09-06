@@ -2,7 +2,7 @@
     <div class="container">
         <div class="content has-text-centered">
             <p>
-                Michtech prototyp för test av mappverktyg. <a href="https://www.elseif.se">Elseif AB</a>
+                Michtech mappverktyg utvecklat av <a href="https://www.elseif.se">Elseif AB</a>
             </p>
             <p>
                 @if(\Illuminate\Support\Facades\Auth::user())

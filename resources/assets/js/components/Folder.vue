@@ -1,7 +1,7 @@
 <template>
 
     <div class="panel folder" v-if="data.name">
-        <p class="panel-heading" style="background-color: #333; color:#fff;">
+        <p class="panel-heading">
             {{ data.name }}
             <i v-if="authenticated" class="fa fa-unlock-alt pull-right" aria-hidden="true"></i>
         </p>
@@ -9,7 +9,7 @@
             <div class="column" v-if="showdocuments">
                 <button @click="toggle(1)"
                         ref="documentButton"
-                        class="button is-success is-fullwidth"
+                        class="button is-primary is-fullwidth"
                         v-bind:class="{'is-outlined': data.documents.length==0, 'is-loading': loadingDocuments }">
                     Dokument
                 </button>
@@ -17,7 +17,7 @@
             <div class="column" v-if="showuploads">
                 <button @click="toggle(2)"
                         ref="uploadButton"
-                        class="button is-info is-fullwidth"
+                        class="button is-danger is-fullwidth"
                         v-bind:class="{'is-outlined': data.uploads.length==0, 'is-loading': loadingUploads }">
                     Uppladdat
                 </button>

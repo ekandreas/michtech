@@ -6,17 +6,15 @@ require __DIR__ . "/vendor/deployer/deployer/recipe/laravel.php";
 
 host('139.162.161.167')
     ->port(22)
-    ->set('deploy_path', '~/www.michtech.se')
     ->user('forge')
+    ->set('deploy_path', '~/www.michtech.se')
     ->forwardAgent(true)
     ->multiplexing(true)
     ->set('branch', 'master')
     ->stage('production')
-    ->set('database', 'michtech')
     ->identityFile('~/.ssh/id_rsa');
 
 set('repository', 'https://github.com/ekandreas/michtech.git');
-set('env', 'prod');
 set('keep_releases', 2);
 set('writable_dirs', []);
 
@@ -41,8 +39,7 @@ task('pull', function () {
     $password = getenv('PROD_DB_PASSWORD');
 
     $actions = [
-        "ssh forge@139.162.161.167 'mysqldump michtech -u michtech -p{$password} --skip-lock-tables --hex-blob --single-transaction | gzip' > db.sql.gz",
-        "gzip -df db.sql.gz",
+        "ssh forge@139.162.161.167 'export MYSQL_PWD={$password}; mysqldump michtech -u michtech --skip-lock-tables --hex-blob --single-transaction' > db.sql",
         "mysql -u root michtech < db.sql",
         "rm -f db.sql",
         "rsync -rve ssh forge@139.162.161.167:{{deploy_path}}/shared/storage storage",
@@ -50,6 +47,6 @@ task('pull', function () {
 
     foreach ($actions as $action) {
         writeln("{$action}");
-        writeln(runLocally($action, ['timeout'=>999]));
+        runLocally($action, ['timeout'=>999]);
     }
 });

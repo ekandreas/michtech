@@ -1,10 +1,10 @@
 <section class="hero header-image">
     <div class="hero-head">
-        <header class="nav" style="background-color: #333; color: #fff;">
+        <header class="nav">
             <div class="container">
                 <div class="nav-left">
                     <a class="nav-item" href="/">
-                        Michtech
+                        Mappverktyg
                     </a>
                 </div>
                 <span class="nav-toggle">
@@ -14,9 +14,9 @@
           </span>
                 <div class="nav-right nav-menu">
                     @if(\Illuminate\Support\Facades\Auth::user())
-                        <span class="nav-item">
+                        <a class="nav-item">
                             {{ \Illuminate\Support\Facades\Auth::user()->name }}&nbsp;
-                        </span>
+                        </a>
                         <a href="{{ route('admin') }}" class="nav-item">
                             Admin
                         </a>
@@ -28,10 +28,10 @@
             </div>
         </header>
     </div>
-    <div class="hero-body">
-        <div class="container has-text-centered">
+    <div class="hero-body" style="background-color: #F9F6F2">
+        <div class="container">
             <a href="/">
-                <img src="{{ asset('images/michtech-logo.png') }}" alt="Michtech logo" />
+                <img src="{{ asset('images/michtech-logo-strike.png') }}" height="50px" alt="Michtech" />
             </a>
         </div>
     </div>
