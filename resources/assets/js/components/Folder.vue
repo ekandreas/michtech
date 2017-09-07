@@ -47,13 +47,14 @@
 
         <div class="panel-block" v-if="authenticated && view==2">
             <dropzone
-                    :useCustomDropzoneOptions="true"
-                    :dropzoneOptions="uploadOptions"
+                    :maxFileSizeInMB="999"
                     :autoProcessQueue="true"
+                    :useFontAwesome="true"
+                    :language="langSE"
                     ref="folderUpload"
-                    :useFontAwesome="dropzone.useFontAwesome"
                     :id="dropZoneId"
-                    :url="uploadUrl">
+                    :url="uploadUrl"
+                    @vdropzone-success="success">
             </dropzone>
         </div>
     </div>
@@ -74,19 +75,9 @@
                 loadingUploads: false,
                 uploadUrl: '/api/folder/' + self.id + '/upload',
                 authenticated: false,
-                dropzone: {
-                    useFontAwesome: true
-                },
                 dropZoneId: 'dropZone' + self.id,
-                uploadOptions: {
-                    maxFilesize: 512,
-                    autoProcessQueue: true,
-                    dictDefaultMessage: '<p><i class="fa fa-cloud-upload"></i><br/>Klicka eller släpp dokument här för att ladda upp!</p>',
-                    success() {
-                        self.loadUploads();
-                        self.view = 2;
-                        self.$refs.folderUpload.removeAllFiles();
-                    }
+                langSE: {
+                    dictDefaultMessage: '<p>Klicka eller släpp dokument här för att ladda upp!</p>'
                 }
             }
         },
@@ -99,6 +90,12 @@
             }
         },
         methods: {
+            success(file, response) {
+                let self = this;
+                self.loadUploads();
+                self.view = 2;
+                self.$refs.folderUpload.removeAllFiles();
+            },
             toggle(view) {
                 let self = this;
                 if (self.view == view) {
