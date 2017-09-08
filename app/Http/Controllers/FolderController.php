@@ -91,7 +91,6 @@ class FolderController extends Controller
 
     public function upload(Request $request, $id)
     {
-        set_time_limit(0);
         $fileName = $request->file('file')->getClientOriginalName();
         $path = "folder-{$id}/uploads/{$fileName}";
 
