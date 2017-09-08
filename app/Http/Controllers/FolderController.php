@@ -91,6 +91,7 @@ class FolderController extends Controller
 
     public function upload(Request $request, $id)
     {
+        ini_set('max_execution_time', 300); //300 seconds = 5 minutes
         $fileName = $request->file('file')->getClientOriginalName();
         $path = "folder-{$id}/uploads/{$fileName}";
 
