@@ -6,8 +6,10 @@ use App\File;
 use App\Folder;
 use App\Item;
 use App\Jobs\IndexFiles;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 
@@ -138,6 +140,20 @@ class FolderController extends Controller
         return response()->redirectTo($url, 302, $headers);
         //return redirect()->redurecaway($url);
 
+    }
+
+    public function remove(Request $request, $id, $itemId)
+    {
+        $file = File::find($itemId);
+
+        $path = $file->path;
+        Storage::disk('s3')->delete($path);
+
+        $file->delete();
+
+        $result = "File {$path} is deleted from S3 and database";
+
+        return $result;
     }
 
 }

@@ -5,7 +5,11 @@
         <div class="columns">
             <div class="column is-6" id="app-folder">
                 <div v-for="folder in folders">
-                    <folder :id="folder.id" :showdocuments="folder.showDocuments" :showuploads="folder.showUploads"></folder>
+                    <folder
+                            :id="folder.id"
+                            :administrator="{{ \Illuminate\Support\Facades\Auth::id() ? 'true' : 'false' }}"
+                            :showdocuments="folder.showDocuments"
+                            :showuploads="folder.showUploads"></folder>
                 </div>
             </div>
             <div class="column is-6">

@@ -38,12 +38,17 @@
             </span>
         </a>
 
-        <a class="panel-block" v-if="data.uploads.length" v-for="file in data.uploads" @click="download(file)">
-            <span class="panel-icon">
-              <i v-if="file.type=='file'" class="fa fa-file-o"></i>
+        <div class="panel-block" v-if="data.uploads.length" v-for="file in data.uploads">
+            <a @click="download(file)">
+                  <i v-if="file.type=='file'" class="fa fa-file is-info"></i>
+                {{ file.path.substr(file.path.lastIndexOf("/") + 1) }}
+            </a>
+            <span v-if="administrator">
+                <a href="#" @click="remove(file)" style="margin-left: 20px;" class="button is-warning is-small pull-right">
+                    <i class="fa fa-spinner fa-pulse" v-if="file.removing"></i>Radera
+                </a>
             </span>
-            {{ file.path.substr(file.path.lastIndexOf("/") + 1) }}
-        </a>
+        </div>
 
         <div class="panel-block" v-if="authenticated && view==2">
             <dropzone
@@ -66,7 +71,7 @@
     import VueCookies from 'vue-cookies'
 
     export default {
-        props: ['id','showdocuments','showuploads'],
+        props: ['id','showdocuments','showuploads','administrator'],
         data() {
             let self = this;
             return {
@@ -203,6 +208,18 @@
                         self.data.uploads = [];
                     }
                 });
+            },
+            remove(file) {
+                let self = this;
+                if (self.authenticated) {
+                    self.setLoading(1);
+                    axios.delete('api/folder/' + self.id + '/documents/' + file.id, {timeout: 3000}).then(function (response) {
+                        self.loadUploads();
+                    }).catch(function () {
+                        self.clearLoading();
+                    });
+                }
+                return false;
             },
             download(file) {
                 let self = this;
