@@ -1,6 +1,4 @@
-
 @import "variables";
-@import "_variables";
 
 @import "hero";
 
@@ -10,11 +8,9 @@
 @import "/../../../node_modules/bulma/sass/components/_all";
 @import "/../../../node_modules/bulma/sass/grid/_all";
 
-@import "./custom/hero.sass";
+@import "custom/footer";
 @import "/../../../node_modules/bulma/sass/layout/section.sass";
-@import "./custom/footer";
+@import "custom/hero";
 
 @import "layout";
-
-@import "_overrides";
 

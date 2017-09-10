@@ -1,6 +1,6 @@
 <section class="hero header-image">
     <div class="hero-head">
-        <header class="nav">
+        <header class="nav" style="background-color: #333; color: #fff;">
             <div class="container">
                 <div class="nav-left">
                     <a class="nav-item" href="/">
@@ -28,10 +28,10 @@
             </div>
         </header>
     </div>
-    <div class="hero-body" style="background-color: #F9F6F2">
-        <div class="container">
+    <div class="hero-body">
+        <div class="container has-text-centered">
             <a href="/">
-                <img src="{{ asset('images/michtech-logo-strike.png') }}" height="50px" alt="Michtech" />
+                <img src="{{ asset('images/michtech-logo.png') }}" alt="Michtech" />
             </a>
         </div>
     </div>
