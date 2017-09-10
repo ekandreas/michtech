@@ -13,6 +13,8 @@
                     <folder
                             :id="folder.id"
                             :administrator="{{ \Illuminate\Support\Facades\Auth::id() ? 'true' : 'false' }}"
+                            :description="folder.description"
+                            :visible="folder.visible"
                             :showdocuments="folder.showDocuments"
                             :showuploads="folder.showUploads"></folder>
                 </div>

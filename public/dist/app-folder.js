@@ -1691,12 +1691,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['id', 'showdocuments', 'showuploads', 'administrator'],
+    props: ['id', 'showdocuments', 'showuploads', 'administrator', 'visible', 'description'],
     data: function data() {
         var self = this;
         return {
@@ -31013,7 +31015,7 @@ module.exports = function normalizeComponent (
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return (_vm.data.name) ? _c('div', {
+  return (_vm.data.name && (_vm.visible == 'public' || (_vm.administrator && _vm.visible == 'admin'))) ? _c('div', {
     staticClass: "panel folder"
   }, [_c('p', {
     staticClass: "panel-heading",
@@ -31026,7 +31028,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "aria-hidden": "true"
     }
-  }) : _vm._e()]), _vm._v(" "), _c('div', {
+  }) : _vm._e()]), _vm._v(" "), (_vm.description) ? _c('p', {
+    staticClass: "panel-block",
+    domProps: {
+      "innerHTML": _vm._s(_vm.description)
+    }
+  }) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "panel-block"
   }, [(_vm.showdocuments) ? _c('div', {
     staticClass: "column"

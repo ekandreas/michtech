@@ -20,6 +20,8 @@ class AdminFolderController extends Controller
         $folder->prio = $request->prio;
         $folder->documents = (bool)$request->documents;
         $folder->uploads = (bool)$request->uploads;
+        $folder->visible = $request->visible;
+        $folder->description = $request->description;
         $folder->save();
 
     }
@@ -36,6 +38,8 @@ class AdminFolderController extends Controller
         $folder->prio = $request->prio;
         $folder->documents = $request->documents;
         $folder->uploads = $request->uploads;
+        $folder->visible = $request->visible;
+        $folder->description = $request->description;
         $folder->save();
         return $folder;
     }

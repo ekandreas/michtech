@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <table class="table">
+                <table class="table is-fullwidth">
                     <thead>
                     <tr>
                         <th><abbr title="ID">ID</abbr></th>

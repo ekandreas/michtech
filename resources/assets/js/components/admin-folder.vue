@@ -1,14 +1,15 @@
 <template>
     <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <table class="table">
+        <div class="columns">
+            <div class="column">
+                <table class="table is-fullwidth">
                     <thead>
                     <tr>
                         <th><abbr title="ID">ID</abbr></th>
                         <th>Mapp</th>
                         <th>Pinkod</th>
                         <th>Prio</th>
+                        <th>Synlig</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -21,6 +22,7 @@
                         </td>
                         <td>{{ folder.passcode }}</td>
                         <td>{{ folder.prio }}</td>
+                        <td>{{ folder.visible }}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -46,6 +48,13 @@
                             <input class="input" type="text" placeholder="Namn" v-model="currentFolder.name">
                         </p>
                         <p class="help">Namnet på mappen för användarna</p>
+                    </div>
+                    <div class="field">
+                        <label class="label">Beskrivning</label>
+                        <p class="control">
+                            <textarea rows="2" class="textarea" v-model="currentFolder.description"></textarea>
+                        </p>
+                        <p class="help">En beskrivning för användarna av mappen</p>
                     </div>
                     <div class="field">
                         <label class="label">Dokument</label>
@@ -74,6 +83,16 @@
                             <input class="input" type="text" placeholder="Prio" v-model="currentFolder.prio">
                         </p>
                         <p class="help">Lägst siffra visas först</p>
+                    </div>
+                    <div class="field">
+                        <label class="label">Synlig</label>
+                        <p class="control">
+                            <select class="select" v-model="currentFolder.visible">
+                                <option value="public">Alla</option>
+                                <option value="admin">Admins</option>
+                            </select>
+                        </p>
+                        <p class="help">För vem ska mappen synas?</p>
                     </div>
                 </section>
                 <footer class="modal-card-foot">
@@ -118,7 +137,9 @@
                     passcode:'0000',
                     prio: '999',
                     uploads: true,
-                    documents: true
+                    documents: true,
+                    description: '',
+                    visible: 'public'
                 };
                 self.editMode = true;
             },
@@ -139,6 +160,8 @@
                 let self = this;
                 axios.put('/api/admin/folder/'+self.currentFolder.id, {
                     name: self.currentFolder.name,
+                    description: self.currentFolder.description,
+                    visible: self.currentFolder.visible,
                     passcode: self.currentFolder.passcode,
                     prio: self.currentFolder.prio,
                     documents: self.currentFolder.documents,
@@ -152,6 +175,8 @@
                 let self = this;
                 axios.post('/api/admin/folder', {
                     name: self.currentFolder.name,
+                    description: self.currentFolder.description,
+                    visible: self.currentFolder.visible,
                     passcode: self.currentFolder.passcode,
                     prio: self.currentFolder.prio,
                     documents: self.currentFolder.documents,

@@ -1,9 +1,11 @@
 <template>
 
-    <div class="panel folder" v-if="data.name">
+    <div class="panel folder" v-if="data.name && (visible=='public' || (administrator && visible=='admin'))">
         <p class="panel-heading" style="background-color: #333; color:#fff;">
             {{ data.name }}
             <i v-if="authenticated" class="fa fa-unlock-alt pull-right" aria-hidden="true"></i>
+        </p>
+        <p class="panel-block" v-if="description" v-html="description">
         </p>
         <div class="panel-block">
             <div class="column" v-if="showdocuments">
@@ -72,7 +74,7 @@
     import VueCookies from 'vue-cookies'
 
     export default {
-        props: ['id','showdocuments','showuploads','administrator'],
+        props: ['id','showdocuments','showuploads','administrator', 'visible', 'description'],
         data() {
             let self = this;
             return {

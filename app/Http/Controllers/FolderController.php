@@ -23,6 +23,8 @@ class FolderController extends Controller
                 'id' => $folder->id,
                 'showDocuments' => $folder->documents,
                 'showUploads' => $folder->uploads,
+                'visible' => $folder->visible,
+                'description' => $folder->description,
             ];
         }
         return $result;
@@ -33,6 +35,8 @@ class FolderController extends Controller
         $folder = Folder::findOrFail($id);
         return [
             'name' => $folder->name,
+            'visible' => $folder->visible,
+            'description' => $folder->description,
             'documents' => [],
             'uploads' => [],
             'showDocuments' => $folder->documents,

@@ -1709,6 +1709,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -1743,7 +1762,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 passcode: '0000',
                 prio: '999',
                 uploads: true,
-                documents: true
+                documents: true,
+                description: '',
+                visible: 'public'
             };
             self.editMode = true;
         },
@@ -1763,6 +1784,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var self = this;
             axios.put('/api/admin/folder/' + self.currentFolder.id, {
                 name: self.currentFolder.name,
+                description: self.currentFolder.description,
+                visible: self.currentFolder.visible,
                 passcode: self.currentFolder.passcode,
                 prio: self.currentFolder.prio,
                 documents: self.currentFolder.documents,
@@ -1776,6 +1799,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var self = this;
             axios.post('/api/admin/folder', {
                 name: self.currentFolder.name,
+                description: self.currentFolder.description,
+                visible: self.currentFolder.visible,
                 passcode: self.currentFolder.passcode,
                 prio: self.currentFolder.prio,
                 documents: self.currentFolder.documents,
@@ -30922,11 +30947,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "container"
   }, [_c('div', {
-    staticClass: "row"
+    staticClass: "columns"
   }, [_c('div', {
-    staticClass: "col-12"
+    staticClass: "column"
   }, [_c('table', {
-    staticClass: "table"
+    staticClass: "table is-fullwidth"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.folders), function(folder) {
     return _c('tr', [_c('th', [_vm._v(_vm._s(folder.id))]), _vm._v(" "), _c('td', [_c('a', {
       attrs: {
@@ -30937,7 +30962,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.edit(folder)
         }
       }
-    }, [_vm._v("\n                            " + _vm._s(folder.name) + "\n                        ")])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(folder.passcode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(folder.prio))])])
+    }, [_vm._v("\n                            " + _vm._s(folder.name) + "\n                        ")])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(folder.passcode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(folder.prio))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(folder.visible))])])
   }))])])]), _vm._v(" "), _c('a', {
     staticClass: "button is-primary",
     on: {
@@ -30999,6 +31024,34 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })]), _vm._v(" "), _c('p', {
     staticClass: "help"
   }, [_vm._v("Namnet på mappen för användarna")])]), _vm._v(" "), _c('div', {
+    staticClass: "field"
+  }, [_c('label', {
+    staticClass: "label"
+  }, [_vm._v("Beskrivning")]), _vm._v(" "), _c('p', {
+    staticClass: "control"
+  }, [_c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.currentFolder.description),
+      expression: "currentFolder.description"
+    }],
+    staticClass: "textarea",
+    attrs: {
+      "rows": "2"
+    },
+    domProps: {
+      "value": (_vm.currentFolder.description)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.currentFolder.description = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('p', {
+    staticClass: "help"
+  }, [_vm._v("En beskrivning för användarna av mappen")])]), _vm._v(" "), _c('div', {
     staticClass: "field"
   }, [_c('label', {
     staticClass: "label"
@@ -31136,7 +31189,42 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('p', {
     staticClass: "help"
-  }, [_vm._v("Lägst siffra visas först")])])]), _vm._v(" "), _c('footer', {
+  }, [_vm._v("Lägst siffra visas först")])]), _vm._v(" "), _c('div', {
+    staticClass: "field"
+  }, [_c('label', {
+    staticClass: "label"
+  }, [_vm._v("Synlig")]), _vm._v(" "), _c('p', {
+    staticClass: "control"
+  }, [_c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.currentFolder.visible),
+      expression: "currentFolder.visible"
+    }],
+    staticClass: "select",
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.currentFolder.visible = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "public"
+    }
+  }, [_vm._v("Alla")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "admin"
+    }
+  }, [_vm._v("Admins")])])]), _vm._v(" "), _c('p', {
+    staticClass: "help"
+  }, [_vm._v("För vem ska mappen synas?")])])]), _vm._v(" "), _c('footer', {
     staticClass: "modal-card-foot"
   }, [_c('a', {
     staticClass: "button is-success",
@@ -31159,7 +31247,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "title": "ID"
     }
-  }, [_vm._v("ID")])]), _vm._v(" "), _c('th', [_vm._v("Mapp")]), _vm._v(" "), _c('th', [_vm._v("Pinkod")]), _vm._v(" "), _c('th', [_vm._v("Prio")])])])
+  }, [_vm._v("ID")])]), _vm._v(" "), _c('th', [_vm._v("Mapp")]), _vm._v(" "), _c('th', [_vm._v("Pinkod")]), _vm._v(" "), _c('th', [_vm._v("Prio")]), _vm._v(" "), _c('th', [_vm._v("Synlig")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -31182,7 +31270,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "col-12"
   }, [_c('table', {
-    staticClass: "table"
+    staticClass: "table is-fullwidth"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.texts), function(text) {
     return _c('tr', [_c('th', [_vm._v(_vm._s(text.id))]), _vm._v(" "), _c('td', [_c('a', {
       attrs: {
