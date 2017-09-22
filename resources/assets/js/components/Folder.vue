@@ -63,7 +63,8 @@
                     ref="folderUpload"
                     :id="dropZoneId"
                     :url="uploadUrl"
-                    @vdropzone-success="success">
+                    @vdropzone-success="success"
+                    @vdropzone-error="error">
             </dropzone>
         </div>
     </div>
@@ -99,6 +100,11 @@
             }
         },
         methods: {
+            error(file) {
+                let self = this;
+                alert('Det gick inte att ladda upp ' + file.name + '. Avbrott eller för stort dokument?');
+                console.log(file);
+            },
             success(file, response) {
                 let self = this;
                 self.loadUploads();
