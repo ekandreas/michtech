@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\IndexFiles;
+use Aws\Sns\Exception\InvalidSnsMessageException;
 use Aws\Sns\Message;
 use Aws\Sns\MessageValidator;
 use GuzzleHttp\Client;
@@ -12,29 +13,30 @@ class S3Notification extends Controller
     public function index()
     {
 
-        // Make sure the request is POST
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            http_response_code(405);
-            die;
-        }
+        // Instantiate the Message and Validator
+        $message = Message::fromRawPostData();
+        $validator = new MessageValidator();
 
+        // Validate the message and log errors if invalid.
         try {
-            // Create a message from the post data and validate its signature
-            $message = Message::fromRawPostData();
-            $validator = new MessageValidator();
             $validator->validate($message);
-        } catch (\Exception $e) {
-            // Pretend we're not here if the message is invalid
+        } catch (InvalidSnsMessageException $e) {
+            // Pretend we're not here if the message is invalid.
             http_response_code(404);
-            die;
+            error_log('SNS Message Validation Error: ' . $e->getMessage());
+            die();
         }
 
-        if ($message->get('Type') === 'SubscriptionConfirmation') {
-            // Send a request to the SubscribeURL to complete subscription
-            (new Client)->get($message->get('SubscribeURL'))->send();
-        } elseif ($message->get('Type') === 'Notification') {
-            // Do something with the notification
-            $this->dispatch(new IndexFiles());
+        // Check the type of the message and handle the subscription.
+        if ($message['Type'] === 'SubscriptionConfirmation') {
+            // Confirm the subscription by sending a GET request to the SubscribeURL
+            file_get_contents($message['SubscribeURL']);
+        }
+
+        if ($message['Type'] === 'Notification') {
+            // Do whatever you want with the message body and data.
+            dispatch(new IndexFiles());
+            echo $message['MessageId'] . ': ' . $message['Message'] . "\n";
         }
 
     }
