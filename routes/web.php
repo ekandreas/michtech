@@ -43,3 +43,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/sync-files', 'FileController@syncFiles')->name('sync');
 
+Route::post('s3/notification', 'S3Notification@index');
