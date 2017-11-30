@@ -13,7 +13,7 @@ let mix = require('laravel-mix');
 
 mix.version()
     .disableNotifications()
-    .browserSync('michtech.app')
+    //.browserSync('michtech.app')
     .js('resources/assets/js/app.js', 'public/dist')
     .js('resources/assets/js/app-folder.js', 'public/dist')
     .js('resources/assets/js/admin.js', 'public/dist')

@@ -44,3 +44,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/sync-files', 'FileController@syncFiles')->name('sync');
 
 Route::post('s3/notification', 'S3Notification@index');
+
+/*
+Route::get('/direkt', 'DirectS3Upload@show')->name('direct');
+Route::post('/direkt/upload', 'DirectS3Upload@upload');
+Route::get('/direkt/upload', 'DirectS3Upload@upload');
+*/

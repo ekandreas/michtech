@@ -55,8 +55,8 @@
 
         <div class="panel-block" v-if="authenticated && view==2">
             <dropzone
-                    :maxFileSizeInMB="999"
-                    :timeout="300000"
+                    :maxFileSizeInMB="2048"
+                    :timeout="10800000"
                     :autoProcessQueue="true"
                     :useFontAwesome="true"
                     :language="langSE"

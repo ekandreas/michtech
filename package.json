@@ -16,6 +16,8 @@
     "jquery": "*",
     "laravel-mix": "*",
     "lodash": "*",
+    "npm": "^5.5.1",
+    "resumablejs": "^1.1.0",
     "vue": "*",
     "vue-bulma": "*",
     "vue-cookies": "*",

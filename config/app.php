@@ -180,8 +180,9 @@ return [
         /*
          * Custom providers, 3-party
          */
-        //Atomescrochus\LaravelBulmaStarter\LaravelBulmaStarterServiceProvider::class,
         Fideloper\Proxy\TrustedProxyServiceProvider::class,
+        Atomescrochus\LaravelBulmaStarter\LaravelBulmaStarterServiceProvider::class,
+        \Pion\Laravel\ChunkUpload\Providers\ChunkUploadServiceProvider::class
 
     ],
 
